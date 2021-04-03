@@ -1,10 +1,6 @@
 # AWS Chalice Demo
+<img style="float:right; margin: 0 0 1rem 1rem" src="./docs/poster.jpg" width="50%" />
 This is a demo project, illustrating how to make use of AWS Chalice with AWS to perform ETL.
-
-## References
- * [Homebrew](https://brew.sh/)
- * [Chalice](https://github.com/aws/chalice)
- * [Pyenv](https://github.com/pyenv/pyenv)
 
 ## Requirements
   * Periodically check to see which records are in the 'submit' state
@@ -12,6 +8,13 @@ This is a demo project, illustrating how to make use of AWS Chalice with AWS to 
   * Process numerous messages from the queue via another lambda
   * Create required infrastructure (queue, etc)
 
+## References
+ * [Homebrew](https://brew.sh/)
+ * [Chalice](https://github.com/aws/chalice)
+ * [Pyenv](https://github.com/pyenv/pyenv)
+
+
+<div style="clear:right">&nbsp;</div>
 
 ## Logical Architecture
 ![Logical Architecture](./docs/arch.jpg)
