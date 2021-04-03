@@ -1,5 +1,5 @@
 # AWS Chalice Demo
-<img style="float:right; margin: 0 0 1rem 1rem" src="./docs/poster.jpg" width="50%" />
+<img src="./docs/poster.jpg" width="50%" />
 This is a demo project, illustrating how to make use of AWS Chalice with AWS to perform ETL.
 
 ## Requirements
@@ -13,8 +13,6 @@ This is a demo project, illustrating how to make use of AWS Chalice with AWS to 
  * [Chalice](https://github.com/aws/chalice)
  * [Pyenv](https://github.com/pyenv/pyenv)
 
-
-<div style="clear:right">&nbsp;</div>
 
 ## Logical Architecture
 ![Logical Architecture](./docs/arch.jpg)
