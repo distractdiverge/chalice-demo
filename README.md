@@ -1,6 +1,11 @@
 # AWS Chalice Demo
 This is a demo project, illustrating how to make use of AWS Chalice with AWS to perform ETL.
 
+## References
+ * [Homebrew](https://brew.sh/)
+ * [Chalice](https://github.com/aws/chalice)
+ * [Pyenv](https://github.com/pyenv/pyenv)
+
 ## Requirements
   * Periodically check to see which records are in the 'submit' state
   * Take these records & create SQS message
