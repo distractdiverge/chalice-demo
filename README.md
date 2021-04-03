@@ -1,15 +1,11 @@
-# SBA Etran v2
-This repository contains the code required to parse the JSON requests/responses sent to 'DataManagement' from the 'PPBL Services' team.
-
-These files are then parsed and saved to ProdSwiftCore MSSQL database.
-
+# AWS Chalice Demo
+This is a demo project, illustrating how to make use of AWS Chalice with AWS to perform ETL.
 
 ## Requirements
-  * Local development makes use of a virtual environment for python, see [below](#Python_VirtualEnv) for steps on how to set it up.
-  * Note: to make full use of 'pyre-check', make sure to install watchman (file watcher daemon)
-
-
-## Actions
+  * Periodically check to see which records are in the 'submit' state
+  * Take these records & create SQS message
+  * Process numerous messages from the queue via another lambda
+  * Create required infrastructure (queue, etc)
 
 ### Test
  * Just execute the tests
@@ -30,8 +26,11 @@ make test-cov-html
 ## Deployment & AWS
 This project makes use of [AWS Chalice](https://aws.github.io/chalice/index.html) to eliminate a lot of the boilerplate for creating lambdas.
 
-TODO: Describe new Build/Package/Deploy process --- we have to reduce the package size before deploy,
-and the only way to do that is to deploy via CloudFormation in a 3 step process.
+![deployment-pipeline](./docs/deploy-pipeline.jpg)
+
+Since most of the AWS libries that are typically used require boto3, AND boto3 is included by default within a lambda's runtime AND we need a small package size to deploy, we need to perform some "post-processing" of the lambda zip package when deploying. (we manually remove the boto3 library from the zip).
+
+We have to reduce the package size before deploy, and the only way to do that is to deploy via CloudFormation in a 3 step process.
 ```sh
 make package-chalice # Package the Python Code & ALL libraries
 make update-package # Remove Botocore & others (reduce size)
@@ -40,8 +39,8 @@ make deploy # Deploy to AWS
 ```
 OR, just run the chained commands:
 ```sh
-make package
-make deploy
+make package ## Executes package-chalice, update-package & package-cloudformation
+make deploy 
 ```
 
 
@@ -49,17 +48,16 @@ make deploy
 The following tools are used to manage python versions & virtual environments. Make sure these are installed.
  * [pyenv](https://github.com/pyenv/pyenv) -- Used to Manage Python Versions
  * [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) -- Connects Pyenv & traditional virtualenvs
- * FreeTDS - Used by 'pymssql', see [setup](https://docs.microsoft.com/en-us/sql/connect/python/pymssql/step-1-configure-development-environment-for-pymssql-python-development?view=sql-server-ver15)
 
 ### Create VirtualEnv
 This only needs to be done once
 ```sh
-pyenv virtualenv 3.7.9 ppp-sba_etran_v2
+pyenv virtualenv 3.9.2 <project-name>
 ```
 
 ### Activate VirtualEnv
 ```sh
-pyenv activate ppp-sba_etran_v2
+pyenv activate <project-name>
 ```
 
 ### Using The VirtualEnv
@@ -72,7 +70,4 @@ Typical tasks would be:
   ```sh
   pyenv exec python ./some-file.py
   ```
- * Execute other installed binaries (that were installed via pip)
-  ```sh
-  pyenv exec sqlacodegen
-  ```
+ 
