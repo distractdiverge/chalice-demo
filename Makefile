@@ -95,6 +95,6 @@ lint:
 
 gp:
 	@echo "${CYAN}Updating Github${NC}"
-	@git push github main
-	@git push github --tags
+	@git push origin main
+	@git push origin --tags
 	@echo "${GREEN}Sent code & tags to Github${CHECK}${NC}\n"
