@@ -94,12 +94,7 @@ lint:
 	
 
 gp:
-	@echo "${CYAN}Updating Bitbucket${NC}"
-	@git push origin master
-	@git push origin --tags
-	@echo "${GREEN}Sent code & tags to Bitbucket${CHECK}${NC}\n"
-
 	@echo "${CYAN}Updating Github${NC}"
-	@git push github master
+	@git push github main
 	@git push github --tags
 	@echo "${GREEN}Sent code & tags to Github${CHECK}${NC}\n"
