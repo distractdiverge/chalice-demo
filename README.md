@@ -7,7 +7,12 @@ This is a demo project, illustrating how to make use of AWS Chalice with AWS to 
   * Process numerous messages from the queue via another lambda
   * Create required infrastructure (queue, etc)
 
-### Test
+
+## Logical Architecture
+![Logical Architecture](./docs/arch.jpg)
+
+
+## Testing
  * Just execute the tests
 ```sh
 make test
