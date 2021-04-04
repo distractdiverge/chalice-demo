@@ -44,7 +44,7 @@ every_min = Cron("0/1", "*", "*", "*", "?", "*")
 every_3mins = Cron("0/3", "*", "*", "*", "?", "*")
 
 
-@app.on_sns_message(topic="chalice-demo-input.fifo")
+@app.on_sns_message(topic="chalice-demo-input")
 def etl_parser(event: SNSEvent) -> None:
     """
     Respond to a new S3 Record Post -- Parse the JSON file

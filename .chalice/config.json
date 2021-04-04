@@ -9,8 +9,6 @@
     "POWERTOOLS_SERVICE_NAMESPACE": "chalice-demo",
     "POWERTOOLS_METRICS_NAMESPACE": "sandbox",
     "POWERTOOLS_SERVICE_NAME": "chalice_demo",
-    "ETL_BUCKET": "chalice-demo-input.fifo",
-    "POLLING_QUEUE_NAME": "chalice_demo.fifo",
     "LOG_LEVEL": "INFO"
   }
 }
