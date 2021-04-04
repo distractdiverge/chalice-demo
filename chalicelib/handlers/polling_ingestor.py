@@ -12,10 +12,7 @@ class PollingIngestor(AbstractLambdaHandler):
     _ppp_repository: PPPRepository
     _sqs: SQSClient
 
-    def __init__(
-        self, logger: Logger, config: PPPConfig,
-        sqs: SQSClient
-    ):
+    def __init__(self, logger: Logger, config: PPPConfig, sqs: SQSClient):
         super().__init__(logger)
         self._config = config
         self._ppp_repository = ppp_repository

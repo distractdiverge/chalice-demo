@@ -26,6 +26,7 @@ logger = Logger(
 
 app.register_middleware(ConvertToMiddleware(logger.inject_lambda_context))
 
+
 def s3_factory():
     return S3Client(logger)
 
@@ -74,7 +75,7 @@ def etl_parser(event: SNSEvent) -> None:
 @app.schedule(every_four_hours)
 def polling_ingestor(event: Dict[str, Any]):
     """
-        Create a list of SQS messages to be read bby the processor
+    Create a list of SQS messages to be read bby the processor
     """
     logger.info("Called Ingestor")
 
@@ -89,5 +90,5 @@ def polling_processor(event: SQSEvent):
     Process a chunk of messages as they are created in the queue
     """
     logger.info("Called Processor")
-    
+
     return PollingProcessor(logger, None, None).handle_event(event)

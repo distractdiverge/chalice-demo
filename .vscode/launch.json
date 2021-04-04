@@ -1,0 +1,60 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Test Webbank Handler (Submit)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${workspaceFolder}/tests/handlers/test_webbank_submit_batch.py"],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Test Webbank Handler (Poll)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${workspaceFolder}/tests/handlers/test_webbank_poll_batch.py"],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Test PayPal Submit Batch",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${workspaceFolder}/tests/handlers/test_submit_batch.py"],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Test PayPal Poll Batch",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${workspaceFolder}/tests/handlers/test_polling_batch.py"],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Provision AWS Resources",
+      "type": "python",
+      "request": "launch",
+      "program": "create-resources.py",
+      "console": "integratedTerminal",
+      "env": {
+        "AWS_PROFILE": "*prod_analytics"
+      }
+    },
+    {
+      "name": "Backfill SNS Topics",
+      "type": "python",
+      "request": "launch",
+      "program": "backfill_parser.py",
+      "console": "integratedTerminal",
+      "env": {
+        "AWS_PROFILE": "*prod_analytics"
+      }
+    }
+  ]
+}

@@ -6,15 +6,12 @@ from aws_lambda_powertools import Logger
 
 
 class PollingProcessor(AbstractLambdaHandler):
-    
     def __init__(self, logger: Logger, proxy: SBAProxy, event_log: EventLogger):
         super().__init__(logger)
         self._sba_proxy = proxy
         self._event_log = event_log
 
-    def _record_event(
-        self, success: bool, ppp_id: str, detail: str = None
-    ) -> EventLog:
+    def _record_event(self, success: bool, ppp_id: str, detail: str = None) -> EventLog:
         entry = EventLog(
             was_successful=success,
             ppp_id=ppp_id,
