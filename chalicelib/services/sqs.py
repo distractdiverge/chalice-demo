@@ -1,6 +1,4 @@
-import json
-from typing import Dict, Any, List
-from datetime import datetime
+from typing import Any, List
 
 import boto3
 from aws_lambda_powertools import Logger

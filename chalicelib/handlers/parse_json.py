@@ -1,13 +1,10 @@
-import json
-from typing import Any, Dict, NamedTuple, Union, List
-
 from aws_lambda_powertools import Logger
 from chalice.app import SNSEvent
 
 from chalicelib.handlers.abstract_handler import AbstractEventHandler
 
 
-class ParseJSONHandler(AbstractLambdaHandler):
+class ParseJSONHandler(AbstractEventHandler):
     def __init__(self, logger: Logger):
         super().__init__(logger)
 
