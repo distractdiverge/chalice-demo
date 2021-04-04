@@ -1,15 +1,13 @@
-import json
-import os
-
 from typing import Any, Dict
 from chalice import Chalice, Cron
-from chalice.app import ConvertToMiddleware, SNSEvent, SQSEvent
+from chalice.app import ConvertToMiddleware, S3Event, SQSEvent
 from aws_lambda_powertools import Logger
-from aws_lambda_powertools import Tracer
 
-from chalicelib.services.config import get_aws_config
+from chalicelib.services.config import get_aws_config, AWSConfig
 from chalicelib.services.s3 import S3Client
 from chalicelib.services.sqs import SQSClient
+from chalicelib.services.etl_parser import ETLParser
+from chalicelib.handlers.parse_json import ParseJSONHandler
 from chalicelib.handlers.polling_ingestor import PollingIngestor
 from chalicelib.handlers.polling_processor import PollingProcessor
 
@@ -23,68 +21,58 @@ logger = Logger(
 app.register_middleware(ConvertToMiddleware(logger.inject_lambda_context))
 
 
+def config_factory() -> AWSConfig:
+    return get_aws_config()
+
+
 def s3_factory():
     return S3Client(logger)
 
 
 def sqs_factory():
-    ppp_config = get_ppp_config()
-    queue_name = ppp_config.queue_name
+    config = config_factory()
+    queue_name = config.queue_name
     return SQSClient(queue_name, logger)
 
 
-every_15_mins = Cron("0/15", "*", "*", "*", "?", "*")
+def etl_parser_factory():
+    config = config_factory()
+    return ETLParser(logger, config)
 
 
-@app.on_sns_message(topic="DM-InternalDataPipeline-Arrival")
-def etl_parser(event: SNSEvent) -> None:
+every_min = Cron("0/1", "*", "*", "*", "?", "*")
+every_3mins = Cron("0/3", "*", "*", "*", "?", "*")
+
+
+@app.on_s3_event(bucket="alapinski-development-bucket")
+def etl_parser(event: S3Event) -> None:
     """
-    Triggered whenever an event is posted to the internal DM Pipeline.
-
-    Only process events that match our expected pattern.
+    Respond to a new S3 Record Post -- Parse the JSON file
     """
-    allowed_subjects = ["ppporigination"]
+    config = config_factory()
+    parser = etl_parser_factory()
 
-    if event is None:
-        raise Exception("Missing event")
-
-    logger.info(f"Event->Subject: {event.subject}")
-    if str.lower(event.subject) not in allowed_subjects:
-        logger.info(f'Ignoring SNS Event with subject "{event.subject}"')
-        return None
-
-    # Positive scenario
-    logger.info(f"Event->Message: {event.message}")
-    psc = prod_swift_core_factory()
-
-    # Make sure DB can connect
-    success = psc._test_pyodbc_connection()
-    logger.info(f"DB Connection Successful? : {success}")
-
-    s3 = s3_factory()
-
-    parser = ppp_parser_factory()
-
-    return ParseJSONHandler(logger, psc, parser, s3).handle_event(event)
+    return ParseJSONHandler(logger, config, parser).handle_event(event)
 
 
-@app.schedule(every_four_hours)
+@app.schedule(every_min)
 def polling_ingestor(event: Dict[str, Any]):
     """
-    Create a list of SQS messages to be read bby the processor
+    Populate the SQS Queue with a list of messages to be processed (allow fan-out)
     """
     logger.info("Called Ingestor")
 
     sqs = sqs_factory()
-    ppp_config = get_ppp_config()
-    return PollingIngestor(logger, None, ppp_config, sqs).handle_event(event)
+    config = config_factory()
+    return PollingIngestor(logger, config, sqs).handle_event(event)
 
 
-@app.on_sqs_message("ppp_sba_2021_polling_queue.fifo", batch_size=10)
+@app.on_sqs_message("chalice_demo.fifo", batch_size=3)
 def polling_processor(event: SQSEvent):
     """
     Process a chunk of messages as they are created in the queue
     """
     logger.info("Called Processor")
 
-    return PollingProcessor(logger, None, None).handle_event(event)
+    config = config_factory()
+    return PollingProcessor(logger, config).handle_event(event)

@@ -8,7 +8,7 @@ testpaths = ["tests/unit", "tests/integration/"]
 
 [tool.coverage.run]
 source = ["chalicelib", "."]
-omit = ["tests/**/*.py", "tests/mocks.py", "**/__init__.py", "infrastructure.py"]
+omit = ["tests/**/*.py", "tests/mocks.py", "**/__init__.py"]
 branch = true
 
 [tool.coverage.html]
