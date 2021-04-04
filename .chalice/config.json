@@ -10,24 +10,11 @@
     "POWERTOOLS_SERVICE_NAMESPACE": "chalice-demo",
     "POWERTOOLS_METRICS_NAMESPACE": "sandbox",
     "POWERTOOLS_SERVICE_NAME": "chalice_demo",
-    "POLLING_QUEUE_NAME": "ppp_sba_2021_polling_queue.fifo",
+    "CONFIG_SSM_PARAM_NAME": "/paypal/chalice/demo",
+    "POLLING_QUEUE_NAME": "chalice_demo_queue.fifo",
     "LOG_LEVEL": "INFO"
-  },
-  "stages": {
-    "dev": { 
-      "LOG_LEVEL": "INFO"
-    },
-    "prod": {
-      "LOG_LEVEL": "ERROR"
-    }
   },
   "layers": [
     "arn:aws:lambda:us-west-2:757158977961:layer:Util-Packages-37:3"
-  ],
-  "subnet_ids": [
-    "subnet-0a8987ffc20173b36"
-  ],
-  "security_group_ids": [
-    "sg-0858902c3ad3a12b1"
   ]
 }

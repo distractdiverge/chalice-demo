@@ -13,7 +13,7 @@ class PollingIngestor(AbstractLambdaHandler):
     _sqs: SQSClient
 
     def __init__(
-        self, logger: Logger, ppp_repository: PPPRepository, config: PPPConfig,
+        self, logger: Logger, config: PPPConfig,
         sqs: SQSClient
     ):
         super().__init__(logger)
@@ -22,7 +22,7 @@ class PollingIngestor(AbstractLambdaHandler):
         self._sqs = sqs
 
     def _get_records(self) -> List[PPPSummaryRecord]:
-        return self._ppp_repository.get_pending_response()
+        return []
 
     def handle_event(self, event: Dict[str, Any]) -> None:
         self._logger.info({"message": "Starting Poll Ingestor"})

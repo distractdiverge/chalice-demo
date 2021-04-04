@@ -6,9 +6,7 @@ from aws_lambda_powertools import Logger
 
 
 class PollingProcessor(AbstractLambdaHandler):
-    _sba_proxy: SBAProxy
-    _event_log: EventLogger
-
+    
     def __init__(self, logger: Logger, proxy: SBAProxy, event_log: EventLogger):
         super().__init__(logger)
         self._sba_proxy = proxy

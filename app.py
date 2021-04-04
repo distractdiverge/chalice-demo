@@ -78,10 +78,9 @@ def polling_ingestor(event: Dict[str, Any]):
     """
     logger.info("Called Ingestor")
 
-    ppp_repository = ppp_repository_factory()
     sqs = sqs_factory()
     ppp_config = get_ppp_config()
-    return PollingIngestor(logger, ppp_repository, ppp_config, sqs).handle_event(event)
+    return PollingIngestor(logger, None, ppp_config, sqs).handle_event(event)
 
 
 @app.on_sqs_message("ppp_sba_2021_polling_queue.fifo", batch_size=10)
@@ -90,8 +89,5 @@ def polling_processor(event: SQSEvent):
     Process a chunk of messages as they are created in the queue
     """
     logger.info("Called Processor")
-    ppp_repository = ppp_repository_factory()
-    sba_proxy = sba_proxy_factory()
-    event_logger = ppp_event_logger_factory()
     
-    return PollingProcessor(logger, sba_proxy, event_logger).handle_event(event)
+    return PollingProcessor(logger, None, None).handle_event(event)
