@@ -1,0 +1,33 @@
+{
+  "version": "2.0",
+  "app_name": "chalice_demo",
+  "lambda_memory_size": 1024,
+  "lambda_timeout": 900,
+  "manage_iam_role": false,
+  "iam_role_arn": "arn:aws:iam::757158977961:role/local_dm-microservice",
+  "environment_variables": {
+    "POWERTOOLS_LOGGER_LOG_EVENT": "true",
+    "POWERTOOLS_SERVICE_NAMESPACE": "chalice-demo",
+    "POWERTOOLS_METRICS_NAMESPACE": "sandbox",
+    "POWERTOOLS_SERVICE_NAME": "chalice_demo",
+    "POLLING_QUEUE_NAME": "ppp_sba_2021_polling_queue.fifo",
+    "LOG_LEVEL": "INFO"
+  },
+  "stages": {
+    "dev": { 
+      "LOG_LEVEL": "INFO"
+    },
+    "prod": {
+      "LOG_LEVEL": "ERROR"
+    }
+  },
+  "layers": [
+    "arn:aws:lambda:us-west-2:757158977961:layer:Util-Packages-37:3"
+  ],
+  "subnet_ids": [
+    "subnet-0a8987ffc20173b36"
+  ],
+  "security_group_ids": [
+    "sg-0858902c3ad3a12b1"
+  ]
+}

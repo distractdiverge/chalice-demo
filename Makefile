@@ -17,16 +17,17 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 install-live: ## Install requirements.txt
-	@echo "${CYAN}Removing botocore from package${NC}"
+	@echo "${CYAN}Installing Live Requirements${NC}"
 	@pyenv exec pip install -r ./requirements.txt
 	@echo "${GREEN}DONE${CHECK}${NC}\n"
 
 install-dev: ## Install requirements-dev.txt
-	@echo "${CYAN}Removing botocore from package${NC}"
+	@echo "${CYAN}Installing Dev Requirements${NC}"
 	@pyenv exec pip install -r ./requirements.txt
 	@echo "${GREEN}DONE${CHECK}${NC}\n"
 
 install: install-dev install-live ## Meta-task Install dev deps & live deps
+	@echo "${GREEN}DONE${CHECK}${NC}\n"
 
 .PHONY: update-package package-chalice package-cloudformation package deploy
 update-package: ## Update chalice package (removing botocore)
