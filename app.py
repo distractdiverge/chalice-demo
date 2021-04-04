@@ -7,11 +7,7 @@ from chalice.app import ConvertToMiddleware, SNSEvent, SQSEvent
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools import Tracer
 
-from chalicelib.services.config import (
-    get_ppp_config,
-    get_dropzone_config,
-    get_database_config,
-)
+from chalicelib.services.config import get_aws_config
 from chalicelib.services.s3 import S3Client
 from chalicelib.services.sqs import SQSClient
 from chalicelib.handlers.polling_ingestor import PollingIngestor
