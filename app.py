@@ -1,6 +1,6 @@
 from typing import Any, Dict
 from chalice import Chalice, Cron
-from chalice.app import ConvertToMiddleware, S3Event, SQSEvent
+from chalice.app import ConvertToMiddleware, SNSEvent, SQSEvent
 from aws_lambda_powertools import Logger
 
 from chalicelib.services.config import get_aws_config, AWSConfig
@@ -44,8 +44,8 @@ every_min = Cron("0/1", "*", "*", "*", "?", "*")
 every_3mins = Cron("0/3", "*", "*", "*", "?", "*")
 
 
-@app.on_s3_event(bucket="alapinski-development-bucket")
-def etl_parser(event: S3Event) -> None:
+@app.on_sns_message(topic="chalice-demo-input.fifo")
+def etl_parser(event: SNSEvent) -> None:
     """
     Respond to a new S3 Record Post -- Parse the JSON file
     """
