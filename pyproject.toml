@@ -1,0 +1,18 @@
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests/unit", "tests/integration/"]
+
+[tool.coverage.run]
+source = ["chalicelib", "."]
+omit = ["tests/**/*.py", "tests/mocks.py", "**/__init__.py", "infrastructure.py"]
+branch = true
+
+[tool.coverage.html]
+directory = ".html-coverage-report/"
+
+[tool.coverage.report]
+fail_under = 75

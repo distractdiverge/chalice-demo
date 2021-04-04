@@ -5,6 +5,7 @@ from datetime import datetime
 import boto3
 from aws_lambda_powertools import Logger
 
+
 class SQSClient:
     _logger: Logger
 
@@ -14,22 +15,20 @@ class SQSClient:
         self._client = sqs.get_queue_by_name(QueueName=queue_name)
 
     def send_message(self, msg: str) -> bool:
-        message = f'MSG: {msg}'
+        message = f"MSG: {msg}"
 
         success = True
         try:
-            self._client.send_message(
-                MessageBody=message, MessageGroupId="1"
-            )
-            self._logger.info(
-                {"title": "Sent Message", "message": message}
-            )
+            self._client.send_message(MessageBody=message, MessageGroupId="1")
+            self._logger.info({"title": "Sent Message", "message": message})
         except Exception as e:
-            self._logger.error({
-                "title": "Error sending message",
-                "message": message,
-                "detail": str(e),
-            })
+            self._logger.error(
+                {
+                    "title": "Error sending message",
+                    "message": message,
+                    "detail": str(e),
+                }
+            )
             success = False
 
         return success
@@ -46,11 +45,13 @@ class SQSClient:
         try:
             message.delete()
         except Exception as ex:
-            self._logger.error({
-                "title": "Error deleting message",
-                "message": message,
-                "detail": str(ex),
-            })
+            self._logger.error(
+                {
+                    "title": "Error deleting message",
+                    "message": message,
+                    "detail": str(ex),
+                }
+            )
             success = False
 
         return success

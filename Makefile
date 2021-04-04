@@ -88,9 +88,6 @@ lint: ## Run 'black', 'pyre' & 'pyflakes' to lint python code
 	@echo "Executing ${CYAN}'black'${NC}"
 	@pyenv exec black . 
 	@echo "${GREEN}DONE${CHECK}${NC}\n"
-	@echo "Executing ${CYAN}'pyre'${NC}"
-	@pyenv exec pyre
-	@echo "${GREEN}DONE${CHECK}${NC}\n"
 	@echo "Executing ${CYAN}'pyflakes'${NC}"
 	@pyenv exec pyflakes .
 	@echo "${GREEN}DONE${CHECK}${NC}\n"

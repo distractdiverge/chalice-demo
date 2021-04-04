@@ -14,7 +14,7 @@ class PollingIngestor(AbstractLambdaHandler):
         self._sqs = sqs
 
     def _get_records(self) -> List[str]:
-        return ['a']
+        return ["a"]
 
     def handle_event(self, event: Dict[str, Any]) -> None:
         self._logger.info({"message": "Starting Poll Ingestor"})
