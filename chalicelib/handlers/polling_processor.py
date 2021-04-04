@@ -1,25 +1,13 @@
-from typing import Any, Dict, List, NamedTuple
+from typing import Any, Dict, List
 
 from chalicelib.handlers.abstract_handler import AbstractEventHandler
 
 from aws_lambda_powertools import Logger
 
 
-class PollingProcessor(AbstractLambdaHandler):
-    def __init__(self, logger: Logger, proxy: SBAProxy, event_log: EventLogger):
+class PollingProcessor(AbstractEventHandler):
+    def __init__(self, logger: Logger):
         super().__init__(logger)
-        self._sba_proxy = proxy
-        self._event_log = event_log
-
-    def _record_event(self, success: bool, ppp_id: str, detail: str = None) -> EventLog:
-        entry = EventLog(
-            was_successful=success,
-            ppp_id=ppp_id,
-            event=EventEnum.GetStatus,
-            detail=detail,
-        )
-        self._event_log.record_event(entry)
-        return entry
 
     def _get_records(self, event: Dict[str, Any]) -> List[Any]:
         return ["ppp_id"]
@@ -29,19 +17,17 @@ class PollingProcessor(AbstractLambdaHandler):
         success = True
         response = self._sba_proxy.get_status(ppp_id)
 
-        if isinstance(response, ServerError):
-            success = False
-            try:
-                detail = response.detail
-            except:
-                detail = "Unknown"
-            self._logger.error(
-                {
-                    "message": f"Error Getting Status for PPP: {ppp_id}",
-                    "ppp_id": ppp_id,
-                    "upstream_message": detail,
-                }
-            )
+        try:
+            detail = response.detail
+        except:
+            detail = "Unknown"
+        self._logger.error(
+            {
+                "message": f"Error Getting Status for PPP: {ppp_id}",
+                "ppp_id": ppp_id,
+                "upstream_message": detail,
+            }
+        )
 
         self._record_event(success, ppp_id, detail)
 

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, NamedTuple
+from typing import Any, Dict, List
 
 from chalicelib.handlers.abstract_handler import AbstractEventHandler
 from chalicelib.services.sqs import SQSClient
@@ -6,7 +6,7 @@ from chalicelib.services.sqs import SQSClient
 from aws_lambda_powertools import Logger
 
 
-class PollingIngestor(AbstractLambdaHandler):
+class PollingIngestor(AbstractEventHandler):
     _sqs: SQSClient
 
     def __init__(self, logger: Logger, sqs: SQSClient):
