@@ -7,7 +7,7 @@ from chalicelib.handlers.abstract_handler import AbstractEventHandler
 
 
 class ParseJSONHandler(AbstractEventHandler):
-    def __init__(self, logger: Logger):
+    def __init__(self, config, logger: Logger):
         super().__init__(logger)
 
     def handle_event(self, event: SNSEvent) -> None:
